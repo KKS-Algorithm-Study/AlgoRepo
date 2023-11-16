@@ -19,9 +19,9 @@
   1) T의 갯수는 최대 1000개
   2) 1초가 지날 때마다 다음과 같은 순서로 로직이 수행됨
     a) spread 함수에서 r * c * 4만큼 시간 소요
-    b) circulate_upper 함수에서 2(r + c)만큼 시간 소요
-    c) circulate_lower 함수에서 2(r + c)만큼 시간 소요
-  3) T * max(r * c * 4, 2(r + c)) 이므로
+    b) circulate_upper 함수에서 최대 2((r - 2) + c)만큼 시간 소요
+    c) circulate_lower 함수에서 최대 2((r - 2) + c)만큼 시간 소요
+  3) T * max(r * c * 4, 2((r - 2) + c)) 이므로
   4) O(T * r * c)의 시간복잡도로 계산할 수 있다.
 """
 
@@ -81,8 +81,6 @@ def circulate_upper(room, start, r, c):
 
     # 우 -> 좌 [시작점(0, c) -> 끝점 (0, 0)]
     for i in range(c, 0, -1):
-        if room[0][i - 1] == -1:
-            continue
         copied_room[0][i - 1] = room[0][i]
 
     # 상 -> 하 [시작점(0, 0) -> 끝점 (x, 0)]
@@ -114,8 +112,6 @@ def circulate_lower(room, start, r, c):
 
     # 우 -> 좌 [시작점(r, c) -> 끝점 (r, 0)]
     for i in range(c, 0, -1):
-        if room[r][i - 1] == -1:
-            continue
         copied_room[r][i - 1] = room[r][i]
 
     # 하 -> 상 [시작점(r, 0) -> 끝점 (x, 0)]
