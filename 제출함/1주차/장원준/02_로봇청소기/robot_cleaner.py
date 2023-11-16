@@ -28,12 +28,6 @@ def exists_need_clean(x, y):
 
   return False
 
-def need_clean(x, y, dir):
-  nx = x + dx[dir]
-  ny = y + dy[dir]
-
-  return 0 <= nx < n and 0 <= ny < m and map[nx][ny] == 0
-
 num_cleaned_room = 0
 cur_x, cur_y, cur_dir = x, y, dir
 
