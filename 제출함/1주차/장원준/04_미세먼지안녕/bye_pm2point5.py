@@ -16,12 +16,12 @@
     c) 인덱스 헷갈릴 수 있으니까 조심해야 됨
 
 2. 시간 복잡도
-  1) T의 갯수는 최대 100개
+  1) T의 갯수는 최대 1000개
   2) 1초가 지날 때마다 다음과 같은 순서로 로직이 수행됨
     a) spread 함수에서 r * c * 4만큼 시간 소요
-    b) circulate_upper 함수에서 최대 4 * max(r, c)만큼 시간 소요
-    c) circulate_lower 함수에서 최대 4 * max(r, c)만큼 시간 소요
-  3) T * max(r * c * 4, 2 * max(r,c)) 이므로
+    b) circulate_upper 함수에서 2(r + c)만큼 시간 소요
+    c) circulate_lower 함수에서 2(r + c)만큼 시간 소요
+  3) T * max(r * c * 4, 2(r + c)) 이므로
   4) O(T * r * c)의 시간복잡도로 계산할 수 있다.
 """
 
