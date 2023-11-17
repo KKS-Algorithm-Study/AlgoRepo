@@ -37,8 +37,9 @@ public class Main {
         int x = Integer.parseInt(st.nextToken());
         int y = Integer.parseInt(st.nextToken());
 
-        String init = br.readLine();
-        robot = new Robot(Character.getNumericValue(init.charAt(4)), Character.getNumericValue(init.charAt(0)), Character.getNumericValue(init.charAt(2)));
+        st = new StringTokenizer(br.readLine());
+
+        robot = new Robot(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 
         int[][] board = new int[x][y];
 
@@ -59,7 +60,7 @@ class Robot {
     int y;
     int cleanCnt = 0;
 
-    Robot(int direction, int x, int y) {
+    Robot(int x, int y, int direction) {
         this.direction = direction;
         this.x = x;
         this.y = y;
