@@ -72,5 +72,10 @@
 |  김연수  | [idkim97](https://github.com/idkim97) |
 |  장규민  | [jgm0327](https://github.com/jgm0327) |
 |  임창준  | [icj4153](https://github.com/icj4153) |
-|  박가면  | [gayeonP](https://github.com/gayeonP) |
+|  박가연  | [gayeonP](https://github.com/gayeonP) |
 |  장원준  | [JANG-WON-JUN](https://github.com/JANG-WON-JUN) |
+|  김준연  | [KJY-kpu](https://github.com/KJY-kpu) |
+|  이윤수  | [yslee96](https://github.com/yslee96) |
+|  김지훈  | [zhxxnc](https://github.com/zhxxnc) |
+|  이가영  | [gxyxxng](https://github.com/gxyxxng) |
+ 
