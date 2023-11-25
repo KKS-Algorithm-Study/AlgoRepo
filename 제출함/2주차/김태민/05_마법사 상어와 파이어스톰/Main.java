@@ -11,6 +11,40 @@ import java.util.StringJoiner;
 import java.util.StringTokenizer;
 
 /**
+ * 문제 접근 방법:
+ *      지정된 네모 칸 크기만큼 90도씩 회전하고, 회전 할 때마다 주변에 3개 얼음 없으면 1씩 줄이고,
+ *      마지막에 모든 칸의 얼음 합, 가장 큰 얼음 블럭이 차지하는 칸 수를 출력하는 문제.
+ *
+ * 주의해야할 점:
+ *      얼음을 녹일 때, 모든 칸이 동시에 녹는 판정이 일어나야 함.
+ *      ex) 1 1 1 1
+ *          1 1 1 1
+ *          1 1 1 1
+ *          1 1 1 1 이렇게 얼음이 있을 때, 1턴이 지나면
+ *
+ *          모든 칸이 한번에 녹는 판정이 일어나면 아래처럼 되겠지만,
+ *          0 1 1 0
+ *          1 1 1 1
+ *          1 1 1 1
+ *          0 1 1 0
+ *
+ *          얼음이 녹는 것을 바로 적용시키면, 아래처럼 모든 칸이 녹아버린다.
+ *          0 0 0 0
+ *          0 0 0 0
+ *          0 0 0 0
+ *          0 0 0 0
+ *  시간 복잡도:
+ *      Q 번의 시뮬레이션 이후 최종적으로 BFS가 한 번 돈다.
+ *      지도의 한 변의 길이는 2 ** N이므로, 지도의 모든 칸의 갯수는 4 ** N이 된다.
+ *      시뮬레이션:
+ *          최대 1000번(Q)만큼, 모든 칸의 얼음을 돌리고 (4 ** N) 얼음이 녹는지 각 칸마다 네 방향을 확인 (4 ** N * 4)
+ *          O(Q * 4 ** N)
+ *      BFS:
+ *          정점은 모든 칸 수 (4 ** N)
+ *          간선은 모든 칸에서 확인하는 네 방향 (4 ** N * 4)
+ *          O(4 ** N)
+ *
+ *      최종적으로 O(Q * 4 ** N)
  */
 
 class Ice {
@@ -27,6 +61,7 @@ class Ice {
         this.iceWidth = ices[0].length;
     }
 
+    // 한 변이 2 ** size 길이인 네모칸으로 나눠서, 네모칸마다 시계방향으로 돌림
     public void rotateIce(int size) {
         int squareSize = (int) Math.pow(2, size);
         for (int rowSquare = 0; rowSquare < iceHeight; rowSquare += squareSize) {
@@ -60,6 +95,7 @@ class Ice {
         }
     }
 
+    // 4개의 좌표를 시계방향으로 스왑
     private void swapCoordinates(int[][] coordinates) {
         int tmp = ices[coordinates[0][0]][coordinates[0][1]];
         for (int idx = 0; idx < coordinates.length - 1; idx++) {
@@ -68,7 +104,9 @@ class Ice {
         ices[coordinates[coordinates.length - 1][0]][coordinates[coordinates.length - 1][1]] = tmp;
     }
 
+    // 모든 칸마다 주변 칸 확인, 주변에 얼음이 있는 칸이 3칸보다 적으면 -1
     public void meltIce() {
+        // 모든 칸이 동시에 녹아야 하므로, 얼음을 녹일 칸을 저장할 배열 선언
         List<int[]> blocksToMelt = new ArrayList<>();
         for (int row = 0; row < iceHeight; row++) {
             for (int col = 0; col < iceWidth; col++) {
@@ -184,7 +222,7 @@ public class Main {
             ice.rotateIce(query);
 //            printMatrix(ice.ices);
             ice.meltIce();
-            printMatrix(ice.ices);
+//            printMatrix(ice.ices);
         }
 
         StringJoiner answer = new StringJoiner("\n");
