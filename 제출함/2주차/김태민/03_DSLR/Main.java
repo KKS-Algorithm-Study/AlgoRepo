@@ -8,6 +8,23 @@ import java.util.StringJoiner;
 import java.util.StringTokenizer;
 
 /**
+ * 문제 접근 방법:
+ *      시작 숫자에서 목표 숫자로 가도록 만드는 최소한의 명령어 나열을 출력하는 문제.
+ *
+ *      수학적으로 계산하는 방법은 없어 보임
+ *      -> 직접 연산을 적용하며 완전 탐색처럼 탐색함
+ *
+ *      연산을 적용하다 이미 나온 숫자가 나오면, 연산할 필요 없음
+ *      -> 방문 배열을 사용해, 중복 탐색 방지
+ *
+ *      최소한의 명령어 나열 필요
+ *      -> 연산을 하나씩 더해보다가 목표 숫자가 나오면 끝낼 수 있음
+ *      -> BFS를 이용해 단계별로 연산을 적용하고, 가장 먼저 목표에 도착하는 방법을 정답으로 반환
+ *
+ *  시간 복잡도:
+ *      노드 -> 각 숫자, 간선 -> 각 숫자마다 연산 == 숫자 갯수 * 연산
+ *      최대 6개의 테스트 케이스(T)마다, 최대 10000개의 노드(N이라고 가정)와 각 노드마다 뻗어나가는 4개의 간선(M이라고 가정)씩 탐색
+ *      O(T * (N + (N * M))
  */
 
 enum Command {
@@ -83,6 +100,7 @@ public class Main {
     }
 
     private static String findMinimalCommands(int initNumber, int goalNumber) {
+        // 방문 배열 사용, 0 ~ 9999만 확인하면 된다
         boolean[] isNumberChecked = new boolean[10000];
         isNumberChecked[initNumber] = true;
         List<Process> curQue = new ArrayList<>();
@@ -91,16 +109,21 @@ public class Main {
         while (true) {
             List<Process> nxtQue = new ArrayList<>();
             for (Process curProcess : curQue) {
+                // 현재 숫자가 목표 숫자라면, 저장된 명령어 나열 반환
                 if (curProcess.number == goalNumber) {
                     return curProcess.commands;
                 }
-                for (Command operation : Command.values()) {
-                    int nxtNumber = operation.calculate(curProcess.number);
+
+                // DSLR 연산 반복문
+                for (Command command : Command.values()) {
+                    int nxtNumber = command.calculate(curProcess.number);
+                    // 이미 확인한 숫자라면, 큐에 넣지 않음
                     if (isNumberChecked[nxtNumber]) {
                         continue;
                     }
                     isNumberChecked[nxtNumber] = true;
-                    nxtQue.add(new Process(curProcess.commands + operation.NAME, nxtNumber));
+                    // 현재 명령어 + 적용한 명령어, 적용 후 숫자
+                    nxtQue.add(new Process(curProcess.commands + command.NAME, nxtNumber));
                 }
             }
 
@@ -113,11 +136,14 @@ public class Main {
         return "";
     }
 
-
+    /**
+     * 입출력을 담당
+     */
     public static void main(String[] args) {
         try {
             tokenize();
             int N = nextInt();
+            // { {시작 숫자, 목표 숫자}, ... }
             int[][] queries = inputQueries(N);
 
             String answer = solve(queries);
