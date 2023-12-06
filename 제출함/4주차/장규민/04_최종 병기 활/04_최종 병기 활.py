@@ -1,31 +1,38 @@
 n, m, k = map(int, input().split())
 
-rubber_band_slots = [int(input()) for _ in range(m)]
+slots = [int(input()) for _  in range(m)]
 
-left, right = 0, n
+left, right = 1, n
 answer = -1
 
 while left <= right:
-    mid = (left + right) // 2
-    max_value = 0
-    
-    for i in range(m):
-        first = prev = rubber_band_slots[i]
-        total = 0
-        
-        for slot in rubber_band_slots[i:]:
-            if slot - prev >= mid:
-                total += 1
-                prev = slot
+    mid = (left + right) // 2 # 활의 최소 길이
 
-        if mid <= (n - (rubber_band_slots[-1] - first)):
+    for i in range(m):
+        # 시작점 저장
+        prev = slots[i]
+        total = 0
+
+        #원형이기 때문에 한 바퀴 돌림
+        for j in range(i + 1, m + i + 1):
+            # 양수이면 그대로 0 이거나 음수이면 +n
+            length = slots[j % m] - prev if slots[j % m] - prev > 0 else slots[j % m] - prev + n
+
+            # 최소 길이인 mid 보다 크다면 continue
+            if length < mid:
+                continue
+
+            # 구간 나누기
             total += 1
-                
-        max_value = max(max_value, total)
-    
-    if max_value >= k:
-        answer = mid
+            # 시작점 변경
+            prev = slots[j % m]
+            
+        if total >= k:
+            break
+
+    if total >= k:
         left = mid + 1
+        answer = mid
     else:
         right = mid - 1
 
