@@ -7,7 +7,7 @@
     b) prefix_sum[r2][c2] \
            - prefix_sum[r2][c1 - 1] \
            - prefix_sum[r1 - 1][c2] \
-           + prefix_sum[r1 - 1][c1- 1]
+           + prefix_sum[r1 - 1][c1 - 1]
 
 2. 시간 복잡도
   1) 누적합을 구할 때 배열의 요소만큼만 순회하면 되므로 O(n * m)이다.
