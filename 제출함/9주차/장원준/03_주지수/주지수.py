@@ -32,12 +32,13 @@ prefix_sum = [[0] * (m + 1) for _ in range(n + 1)]
 for i in range(1, n + 1):
   for j in range(1, m + 1):
     # 행에 대해 먼저 누적합 계산
+    # 마지막에 현재 바라보고 있는 값 추가
     prefix_sum[i][j] += prefix_sum[i - 1][j] + prefix_sum[i][j - 1] - prefix_sum[i - 1][j - 1] + land[i - 1][j - 1]
 
 for r1, c1, r2, c2 in test_cases:
   result = prefix_sum[r2][c2] \
            - prefix_sum[r2][c1 - 1] \
            - prefix_sum[r1 - 1][c2] \
-           + prefix_sum[r1 - 1][c1- 1]
+           + prefix_sum[r1 - 1][c1 - 1]
 
   print(result)
