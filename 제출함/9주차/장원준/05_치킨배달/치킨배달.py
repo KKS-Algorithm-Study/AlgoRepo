@@ -7,7 +7,6 @@
   1) 백트래킹이므로 최대 13!이다.
 
 """
-from copy import deepcopy
 
 def dfs(chicken_places, index, visited, depth, selected):
   global chicken_dist
@@ -27,21 +26,24 @@ def dfs(chicken_places, index, visited, depth, selected):
 
 # 1개의 치킨집 리스트에서 각 집의 최소 치킨 거리를 구한다.
 def calculate_chicken_dist(chicken_places):
-  homes = deepcopy(default_homes)
+  result = 0
 
-  for chicken_x, chicken_y in chicken_places:
-    for key in homes.keys():
-      home_x, home_y = key
+  for home_x, home_y in homes:
+    min_dist = INF
+
+    for chicken_x, chicken_y in chicken_places:
       chicken_dist = abs(home_x - chicken_x) + abs(home_y - chicken_y)
-      homes[key] = min(homes[key], chicken_dist)
+      min_dist = min(min_dist, chicken_dist)
 
-  return sum(homes.values())
+    result += min_dist
+
+  return result
 
 
 INF = int(1e9)
 chicken_dist = INF
 chicken_places = []
-default_homes = {}
+homes = []
 
 n, m = map(int, input().split())
 town = [list(map(int, input().split())) for _ in range(n)]
@@ -52,7 +54,7 @@ for i in range(n):
     if town[i][j] == 2:
       chicken_places.append((i, j))
     elif town[i][j] == 1:
-      default_homes[(i, j)] = INF
+      homes.append((i, j))
 
 
 visited = [False] * len(chicken_places)
